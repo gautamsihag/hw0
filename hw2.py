@@ -20,22 +20,10 @@ def load_data(file_path):
 
 
 def q1(data):
-  a = {}
-  count = 0
-  #bottle_qty = 0
-  #zipcode = '00000'
-  for i in data:
-    description = i[15]
-    if description not in a:
-      a[description]=i[14]
-      #else:
-        #if a[description]!=i[14]
-      #if zipcode not in b:
-       # b[zipcode]=int(i[20])
-      #else:
-      #  b[zipcode]=int(b[zipcode])+int(i[20])
-
-
+  a = set()
+  for i in data[1:]:
+    a.add(i[15])
+  return len(a)
   """
   @param data the output of load_data()
   @return the number of  distinct types of items (by `description` attribute) in this dataset
@@ -45,7 +33,7 @@ def q1(data):
 
 def q2(data):
   d = set()
-  for i in data:
+  for i in data[1:]:
     d.add(i[13])
   return len(d)
 
@@ -82,14 +70,21 @@ def q4(data):
   c = {}
   e = {}
   for i in data[1:]:
-    desc = i[15]
+    #desc = i[15]
     store = i[2]
     if store not in c:
       c[store]=int(i[20])
-      e[desc] = int(i[20])
+      #e[desc] = int(i[20])
     else:
-      if desc in e:  
-        e[desc]=int(e[desc])+int(i[20]) 
+      #if desc in e:  
+      c[store]=int(c[store])+int(i[20])
+  out = sorted(c,key=c.get,reverse=True)
+  for x in data[1:]:
+    if x[2]==out[0]:
+      if x[15] in e:
+        e[x[15]]= int(e[x[15]])+int(x[20])
+      else:
+        e[x[15]]=int(x[20]) 
 #if bottle_qty < i[20]:
  #       bottle_qty = i[20]
   #      zipcode = i[6]
